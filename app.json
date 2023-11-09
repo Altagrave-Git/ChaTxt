@@ -8,6 +8,11 @@
       "expo-router"
     ],
     "name": "ChatIRL",
-    "slug": "ChatIRL"
+    "slug": "ChatIRL",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    }
   }
 }
