@@ -7,8 +7,8 @@
     "plugins": [
       "expo-router"
     ],
-    "name": "ChatIRL",
-    "slug": "ChatIRL",
+    "name": "ClubToon",
+    "slug": "ClubToon",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
