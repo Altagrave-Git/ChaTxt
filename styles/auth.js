@@ -44,11 +44,6 @@ const styles = StyleSheet.create({
     width: 120,
     alignItems: "center",
     justifyContent: "center"
-  },
-  buttonText: {
-    color: COLORS.warning,
-    fontFamily: FONT.cute,
-    fontSize: 30
   }
 })
 
