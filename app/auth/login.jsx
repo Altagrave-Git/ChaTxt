@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, ScrollView, SafeAreaView, Pressable } from "react-native";
 import { useRouter, Stack } from "expo-router";
 import { COLORS, SIZES, FONT, icons } from "../../constants";
-import styles from "../../styles/auth";
+import styles from "../../styles/forms";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
 
@@ -24,8 +24,12 @@ const LoginView = () => {
       formData.append("email", email);
       formData.append("password", password);
 
-      ToonAPI.post("/users/login/", formData)
-        .then(data => console.log(data))
+      const results = await ToonAPI.post("/users/login/", formData);
+      if (results.status == 200) {
+        console.log(results.data);
+      } else {
+        setMessage(Object.values(results.data)[0]);
+      }
     }
     return
   }
