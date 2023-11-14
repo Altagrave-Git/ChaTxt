@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useRouter, Stack } from "expo-router";
 import { COLORS, SIZES, FONT, icons } from "../../constants";
-import styles from "../../styles/auth";
+import styles from "../../styles/forms";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
 
@@ -17,8 +17,7 @@ const RegisterView = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password1, setPassword1] = useState("");
+  const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [message, setMessage] = useState(null);
 
@@ -28,12 +27,20 @@ const RegisterView = () => {
       setMessage("Enter valid e-mail address.");
     } else if (!validator.password(password)) {
       setMessage("Password must be 8+ characters with atleast one uppercase, lowercase, numeric and special character.");
+    } else if (password != password2) {
+      setMessage("Passwords do not match.")
     } else {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
+      formData.append("password2", password2)
 
-      ToonAPI.post("/users/login/", formData).then((data) => console.log(data));
+      const results = await ToonAPI.post("/users/register/", formData);
+      if (results.status == 200) {
+        console.log(results.data);
+      } else {
+        setMessage(Object.values(results.data)[0]);
+      }
     }
     return;
   };
@@ -97,8 +104,8 @@ const RegisterView = () => {
           <View style={styles.controlWrapper}>
             <TextInput
               style={styles.controlInput}
-              value={password1}
-              onChangeText={(text) => setPassword1(text.trim())}
+              value={password}
+              onChangeText={(text) => setPassword(text.trim())}
               placeholder="Password"
               secureTextEntry={true}
               placeholderTextColor={COLORS.placeholder}
@@ -109,8 +116,8 @@ const RegisterView = () => {
           <View style={styles.controlWrapper}>
             <TextInput
               style={styles.controlInput}
-              value={password1}
-              onChangeText={(text) => setPassword1(text.trim())}
+              value={password2}
+              onChangeText={(text) => setPassword2(text.trim())}
               placeholder="Re-enter password"
               secureTextEntry={true}
               placeholderTextColor={COLORS.placeholder}
