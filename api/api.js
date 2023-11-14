@@ -1,9 +1,16 @@
-import { useState, useEffect } from "react";
 import { REACT_APP_SERVER_URL } from '@env';
 
 class BaseToonAPI {
   constructor() {
     this.baseUrl = REACT_APP_SERVER_URL;
+    this.handleResponse = async (response) => {
+      const data = await response.json();
+      
+      return {
+        status: response.status,
+        data: data
+      };
+    };
   }
 
   get = async (endpoint, params={}) => {
@@ -27,6 +34,7 @@ class BaseToonAPI {
 
   post = async (endpoint, body={}, params={}) => {
     const paramList = [];
+    let status;
     for (let param in params) {
       paramList.push(`${param}=${params[param]}`);
     }
@@ -35,14 +43,7 @@ class BaseToonAPI {
       credentials: "include",
       body: body
     })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        return data;
-      })
-      .catch(error => console.log(error));
-    return response
+    return this.handleResponse(response);
   }
 }
 
