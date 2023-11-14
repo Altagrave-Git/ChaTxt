@@ -10,8 +10,8 @@
     "name": "ClubToon",
     "slug": "ClubToon",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/ClubToonChars.png",
+      "resizeMode": "cover",
       "backgroundColor": "#000000"
     }
   }
