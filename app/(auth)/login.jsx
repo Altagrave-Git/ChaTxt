@@ -5,8 +5,11 @@ import { COLORS, SIZES, FONT, icons } from "../../constants";
 import styles from "../../styles/forms";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
+import { useGlobalState } from "../../context/global";
 
 const LoginView = () => {
+  const { state, dispatch } = useGlobalState();
+
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -26,7 +29,7 @@ const LoginView = () => {
 
       const results = await ToonAPI.post("/users/login/", formData);
       if (results.status == 200) {
-        console.log(results.data);
+        await dispatch({type: "user", payload: results.data})
       } else {
         setMessage(Object.values(results.data)[0]);
       }
