@@ -32,9 +32,9 @@ const COLORS = {
 };
 
 const FONT = {
-  regular: "DMRegular",
-  medium: "DMMedium",
-  bold: "DMBold",
+  regular: "Regular",
+  medium: "Medium",
+  bold: "Bold",
   cute: "Cute"
 };
 
