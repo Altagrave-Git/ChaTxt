@@ -3,17 +3,15 @@ import React, { createContext, useContext, useReducer } from 'react';
 const AppContext = createContext();
 
 const initial = {
-  user: null,
-  theme: 'default'
+  token: null,
+  expiry: null,
+  user: null
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "user":
       return { ...state, user: action.payload }
-
-    case "theme":
-      return { ...state, theme: action.payload }
 
     default:
       return state;
