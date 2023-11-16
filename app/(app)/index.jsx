@@ -3,8 +3,10 @@ import { useRouter, Stack } from "expo-router";
 import { COLORS, SIZES, FONT, icons } from "../../constants";
 import Svg, { Path } from "react-native-svg";
 import Avatar from "../../components/avatar/avatar";
+import { useGlobalState } from "../../context/global";
 
 const Home = () => {
+  const { state } = useGlobalState();
 
   const router = useRouter();
 
