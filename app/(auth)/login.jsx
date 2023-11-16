@@ -39,12 +39,13 @@ const LoginView = () => {
       flex: 1,
       backgroundColor: COLORS.gray1
     }}>
+      {/* HEADER */}
       <Stack.Screen options={{
         headerStyle: { backgroundColor: COLORS.warning },
         headerShadowVisible: true,
         headerLeft: () => <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: COLORS.light }}>Login</Text>,
         headerRight: () => (
-          <Pressable onPress={() => router.push("/auth/register/")}>
+          <Pressable onPress={() => router.push("/register/")}>
             <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: COLORS.secondary }}>Register</Text>
           </Pressable>
         ),
@@ -53,6 +54,7 @@ const LoginView = () => {
 
       <ScrollView>
         <View style={styles.controlContainer}>
+          {/* ERROR MESSAGE */}
           { message != null &&
             <Text style={{
               color: COLORS.danger,
@@ -62,6 +64,7 @@ const LoginView = () => {
             }}>{message}</Text>
           }
 
+          {/* EMAIL INPUT */}
           <View style={styles.controlWrapper}>
             <TextInput
               style={styles.controlInput}
@@ -71,6 +74,8 @@ const LoginView = () => {
               placeholderTextColor={COLORS.placeholder}
             />
           </View>
+
+          {/* PASSWORD INPUT */}
           <View style={styles.controlWrapper}>
             <TextInput
               style={styles.controlInput}
@@ -82,6 +87,7 @@ const LoginView = () => {
             />
           </View>
 
+          {/* SUBMIT */}
           <Pressable 
             style={styles.controlButton}
             onPress={handleLogin}

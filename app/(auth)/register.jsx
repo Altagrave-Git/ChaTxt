@@ -57,7 +57,7 @@ const RegisterView = () => {
         headerStyle: { backgroundColor: COLORS.warning },
         headerShadowVisible: true,
         headerLeft: () => (
-          <Pressable onPress={() => router.push("/auth/login/")}>
+          <Pressable onPress={() => router.push("/login/")}>
             <Text style={{
               fontFamily: FONT.cute,
               fontSize: 36,

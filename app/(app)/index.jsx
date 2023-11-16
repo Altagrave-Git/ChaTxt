@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { View, Text, ScrollView, SafeAreaView, Pressable, ActivityIndicator } from "react-native";
 import { useRouter, Stack } from "expo-router";
-import { COLORS, SIZES, FONT, icons } from "../constants";
+import { COLORS, SIZES, FONT, icons } from "../../constants";
 import Svg, { Path } from "react-native-svg";
-import Avatar from "../components/avatar/avatar";
+import Avatar from "../../components/avatar/avatar";
 
 const Home = () => {
+
   const router = useRouter();
 
   return (
@@ -34,7 +34,7 @@ const Home = () => {
       </ScrollView>
       <View style={{ position: 'absolute', bottom: 20, right: 20 }}>
         <Pressable style={{height: 75, width: 75, borderColor: COLORS.warning, borderStyle: "solid", borderWidth: 2, borderRadius: 50,
-        backgroundColor: COLORS.danger }} onPress={() => router.push('/auth/login/')}>
+        backgroundColor: COLORS.danger }} onPress={() => router.push('/login/')}>
           <Avatar />
         </Pressable>
       </View>
