@@ -1,19 +1,15 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  ScrollView,
-  SafeAreaView,
-  Pressable,
-} from "react-native";
+import { View, Text, TextInput, ScrollView, SafeAreaView, Pressable } from "react-native";
 import { useRouter, Stack } from "expo-router";
 import { COLORS, SIZES, FONT, icons } from "../../constants";
 import styles from "../../styles/forms";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
+import { useGlobalState } from "../../context/global";
 
 const RegisterView = () => {
+  const { state, dispatch } = useGlobalState();
+
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -130,7 +126,7 @@ const RegisterView = () => {
               color: COLORS.warning,
               fontFamily: FONT.cute,
               fontSize: 30,
-            }}>Login</Text>
+            }}>Register</Text>
           </Pressable>
         </View>
       </ScrollView>
