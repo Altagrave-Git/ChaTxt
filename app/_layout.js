@@ -1,11 +1,11 @@
 import { Slot } from "expo-router";
-import { GlobalStateProvider } from "../context/global";
+import { SessionProvider } from "../global/session";
 
 export default Root = () => {
 
   return (
-    <GlobalStateProvider>
+    <SessionProvider>
       <Slot />
-    </GlobalStateProvider>
+    </SessionProvider>
   );
 }
