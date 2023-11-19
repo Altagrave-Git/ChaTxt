@@ -2,13 +2,16 @@ import { useState } from "react";
 import { View, Text, TextInput, ScrollView, SafeAreaView, Pressable } from "react-native";
 import { useRouter, Stack } from "expo-router";
 import { COLORS, SIZES, FONT, icons } from "../../constants";
-import styles from "../../styles/forms";
+import styles from "../../styles/auth/auth";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
-import { useGlobalState } from "../../context/global";
+import { useSession } from "../../global/session";
+import { useTheme } from "../../global/theme";
+import { PressableOpacity } from "../../components/common";
 
 const RegisterView = () => {
-  const { state, dispatch } = useGlobalState();
+  const { signIn } = useSession();
+  const { theme } = useTheme();
 
   const router = useRouter();
 
@@ -33,7 +36,7 @@ const RegisterView = () => {
 
       const results = await ToonAPI.post("/users/register/", formData);
       if (results.status == 200) {
-        console.log(results.data);
+        signIn(results.data);
       } else {
         setMessage(Object.values(results.data)[0]);
       }
@@ -45,39 +48,39 @@ const RegisterView = () => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: COLORS.gray1,
+        backgroundColor: theme.background,
       }}
     >
       {/* HEADER */}
       <Stack.Screen options={{
-        headerStyle: { backgroundColor: COLORS.warning },
+        headerStyle: { backgroundColor: theme.primary },
         headerShadowVisible: true,
         headerLeft: () => (
-          <Pressable onPress={() => router.push("/login/")}>
+          <PressableOpacity onPress={() => router.push("/login/")}>
             <Text style={{
               fontFamily: FONT.cute,
               fontSize: 36,
-              color: COLORS.secondary,
+              color: theme.secondary,
             }}>Login</Text>
-          </Pressable>
+          </PressableOpacity>
         ),
         headerRight: () => (
           <Text style={{
             fontFamily: FONT.cute,
             fontSize: 36,
-            color: COLORS.light,
+            color: theme.highlight,
           }}>Register</Text>
         ),
         headerTitle: "",
       }} />
 
       <ScrollView>
-        <View style={styles.controlContainer}>
+        <View style={styles(theme).controlContainer}>
           {/* ERROR MESSAGE */}
           {message != null && (
             <Text
               style={{
-                color: COLORS.danger,
+                color: COLORS.red,
                 fontFamily: FONT.regular,
                 fontSize: 16,
                 textAlign: "center",
@@ -86,48 +89,51 @@ const RegisterView = () => {
           )}
 
           {/* EMAIL */}
-          <View style={styles.controlWrapper}>
+          <View style={styles(theme).controlWrapper}>
             <TextInput
-              style={styles.controlInput}
+              style={styles(theme).controlInput}
               value={email}
               onChangeText={(text) => setEmail(text.trim())}
               placeholder="E-mail address"
-              placeholderTextColor={COLORS.placeholder}
+              placeholderTextColor={theme.placeholder}
             />
           </View>
 
           {/* PASSWORD 1 */}
-          <View style={styles.controlWrapper}>
+          <View style={styles(theme).controlWrapper}>
             <TextInput
-              style={styles.controlInput}
+              style={styles(theme).controlInput}
               value={password}
               onChangeText={(text) => setPassword(text.trim())}
               placeholder="Password"
               secureTextEntry={true}
-              placeholderTextColor={COLORS.placeholder}
+              placeholderTextColor={theme.placeholder}
             />
           </View>
 
           {/* PASSWORD 2 */}
-          <View style={styles.controlWrapper}>
+          <View style={styles(theme).controlWrapper}>
             <TextInput
-              style={styles.controlInput}
+              style={styles(theme).controlInput}
               value={password2}
               onChangeText={(text) => setPassword2(text.trim())}
               placeholder="Re-enter password"
               secureTextEntry={true}
-              placeholderTextColor={COLORS.placeholder}
+              placeholderTextColor={theme.placeholder}
             />
           </View>
 
           {/* SUBMIT */}
-          <Pressable style={styles.controlButton} onPress={handleLogin}>
+          <PressableOpacity
+            onPress={handleLogin}
+            style={styles(theme).controlButton}
+          >
             <Text style={{
-              color: COLORS.warning,
+              color: theme.primary,
               fontFamily: FONT.cute,
               fontSize: 30,
             }}>Register</Text>
-          </Pressable>
+          </PressableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
