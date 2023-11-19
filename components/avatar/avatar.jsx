@@ -1,22 +1,22 @@
 import Svg from "react-native-svg";
-import Skin from "../../assets/avatar/skin";
-import Legs from "../../assets/avatar/legs";
-import Feet from "../../assets/avatar/feet";
-import Torso from "../../assets/avatar/torso";
-import Hands from "../../assets/avatar/hands";
-import Eyes from "../../assets/avatar/eyes";
-import Mouth from "../../assets/avatar/mouth";
+import { Hair, Legs, Hands, Feet } from "../../assets/avatar";
+import { Skin } from "../../assets/avatar/skin/skin";
+import { Eyes } from "../../assets/avatar/eyes";
+import { Torso } from "../../assets/avatar/torso/torso";
+import { Mouth } from "../../assets/avatar";
 
-const Avatar = ({ skin=0, eyes=0, mouth=0, torso=0, hands=0, legs=0, feet=0 }) => {
+
+const Avatar = ({ skin={}, hair={}, eyes={}, mouth={}, torso={}, hands={}, legs={}, feet={} }) => {
     return (
         <Svg id="stage-svg" preserveAspectRatio="none" viewBox="0 0 385 385">
-            {Skin[skin]}
-            {Legs[legs]}
-            {Feet[feet]}
-            {Torso[torso]}
-            {Hands[hands]}
-            {Eyes[eyes]}
-            {Mouth[mouth]}
+            {Skin(0, 0, 0, 0)}
+            {Hair[0]}
+            {Eyes(0, 0, 0, 0)}
+            {Mouth("A", 0, [], "crooked")}
+            {Torso(0, 0, 0, 0)}
+            {Legs[0]}
+            {Hands[0]}
+            {Feet[0]}
         </Svg>
     )
 }
