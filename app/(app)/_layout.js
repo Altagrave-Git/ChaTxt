@@ -2,12 +2,14 @@ import { Stack, Redirect } from "expo-router";
 import { useCallback } from "react";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { useGlobalState } from "../../context/global";
+import { useSession } from "../../global/session";
+import { useTheme } from "../../global/theme";
 
 SplashScreen.preventAutoHideAsync();
 
 export default Layout = () => {
-  const { state } = useGlobalState();
+  const { session, isLoading } = useSession();
+  const { theme, loadingTheme, setTheme } = useTheme();
 
   const [fontsLoaded] = useFonts({
     Bold: require('../../assets/fonts/DMSans-Bold.ttf'),
@@ -17,16 +19,22 @@ export default Layout = () => {
   });
 
   const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded && !loadingTheme)
     await SplashScreen.hideAsync();
-  }, [fontsLoaded]);
+  }, [fontsLoaded, loadingTheme]);
 
-  if (!fontsLoaded) {
+  if (theme === null) {
+    setTheme('default');
+  }
+
+  if (!fontsLoaded || loadingTheme) {
     return null;
   }
+  
 
   return (
     <>
-      { state.user !== null ? (
+      { session !== null ? (
           <Stack onLayout={onLayoutRootView} />
         ) : (
           <Redirect href={"/login/"} />
