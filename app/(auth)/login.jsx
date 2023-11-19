@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { View, Text, TextInput, ScrollView, SafeAreaView, Pressable } from "react-native";
+import { View, Text, TextInput, ScrollView, SafeAreaView, Pressable, StyleSheet } from "react-native";
 import { useRouter, Stack } from "expo-router";
-import { COLORS, SIZES, FONT, icons } from "../../constants";
-import styles from "../../styles/forms";
+import { COLORS, SIZES, FONT} from "../../constants";
+import styles from "../../styles/auth/auth";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
-import { useGlobalState } from "../../context/global";
+import { useSession } from "../../global/session";
+import { useTheme } from "../../global/theme";
+import { PressableOpacity } from "../../components/common";
 
 const LoginView = () => {
-  const { state, dispatch } = useGlobalState();
+  const { signIn } = useSession();
+  const { theme } = useTheme();
 
   const router = useRouter();
 
@@ -29,7 +32,7 @@ const LoginView = () => {
 
       const results = await ToonAPI.post("/users/login/", formData);
       if (results.status == 200) {
-        await dispatch({type: "user", payload: results.data})
+        await signIn(results.data);
       } else {
         setMessage(Object.values(results.data)[0]);
       }
@@ -40,27 +43,27 @@ const LoginView = () => {
   return (
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor: COLORS.gray1
+      backgroundColor: theme.background
     }}>
       {/* HEADER */}
       <Stack.Screen options={{
-        headerStyle: { backgroundColor: COLORS.warning },
+        headerStyle: { backgroundColor: theme.primary },
         headerShadowVisible: true,
-        headerLeft: () => <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: COLORS.light }}>Login</Text>,
+        headerLeft: () => <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: theme.highlight }}>Login</Text>,
         headerRight: () => (
           <Pressable onPress={() => router.push("/register/")}>
-            <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: COLORS.secondary }}>Register</Text>
+            <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: theme.secondary }}>Register</Text>
           </Pressable>
         ),
         headerTitle: ""
       }} />
 
       <ScrollView>
-        <View style={styles.controlContainer}>
+        <View style={styles(theme).controlContainer}>
           {/* ERROR MESSAGE */}
           { message != null &&
             <Text style={{
-              color: COLORS.danger,
+              color: COLORS.red,
               fontFamily: FONT.regular,
               fontSize: 16,
               textAlign: "center"
@@ -68,39 +71,40 @@ const LoginView = () => {
           }
 
           {/* EMAIL INPUT */}
-          <View style={styles.controlWrapper}>
+          <View style={styles(theme).controlWrapper}>
             <TextInput
-              style={styles.controlInput}
+              style={styles(theme).controlInput}
               value={email}
               onChangeText={(text) => setEmail(text.trim())}
               placeholder="E-mail address"
-              placeholderTextColor={COLORS.placeholder}
+              placeholderTextColor={theme.placeholder}
             />
           </View>
 
           {/* PASSWORD INPUT */}
-          <View style={styles.controlWrapper}>
+          <View style={styles(theme).controlWrapper}>
             <TextInput
-              style={styles.controlInput}
+              style={styles(theme).controlInput}
               value={password}
               onChangeText={(text) => setPassword(text.trim())}
               placeholder="Password"
               secureTextEntry={true}
-              placeholderTextColor={COLORS.placeholder}
+              placeholderTextColor={theme.placeholder}
             />
           </View>
 
           {/* SUBMIT */}
-          <Pressable 
-            style={styles.controlButton}
+          <PressableOpacity
             onPress={handleLogin}
+            theme={theme}
+            style={styles(theme).controlButton}
           >
             <Text style={{
-              color: COLORS.warning,
+              color: theme.primary,
               fontFamily: FONT.cute,
               fontSize: 30
             }}>Login</Text>
-          </Pressable>
+          </PressableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
