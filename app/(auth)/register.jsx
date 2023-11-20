@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { View, Text, TextInput, ScrollView, SafeAreaView, Pressable } from "react-native";
+import { View, Text, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { useRouter, Stack } from "expo-router";
-import { COLORS, SIZES, FONT, icons } from "../../constants";
-import styles from "../../styles/auth/auth";
+import { FONT } from "../../constants";
+import styles from "../../styles/auth/auth.styles";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
 import { useSession } from "../../global/session";
@@ -79,12 +79,7 @@ const RegisterView = () => {
           {/* ERROR MESSAGE */}
           {message != null && (
             <Text
-              style={{
-                color: COLORS.red,
-                fontFamily: FONT.regular,
-                fontSize: 16,
-                textAlign: "center",
-              }}
+              style={styles(theme).errorText}
             >{message}</Text>
           )}
 
@@ -128,11 +123,7 @@ const RegisterView = () => {
             onPress={handleLogin}
             style={styles(theme).controlButton}
           >
-            <Text style={{
-              color: theme.primary,
-              fontFamily: FONT.cute,
-              fontSize: 30,
-            }}>Register</Text>
+            <Text style={styles(theme).controlButtonText}>Register</Text>
           </PressableOpacity>
         </View>
       </ScrollView>
