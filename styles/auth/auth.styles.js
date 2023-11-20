@@ -44,6 +44,17 @@ const styles = (theme) => StyleSheet.create({
     width: 120,
     alignItems: "center",
     justifyContent: "center"
+  },
+  controlButtonText: {
+    color: theme.primary,
+    fontFamily: FONT.cute,
+    fontSize: 30
+  },
+  errorText: {
+    color: COLORS.red,
+    fontFamily: FONT.regular,
+    fontSize: 16,
+    textAlign: "center"
   }
 })
 
