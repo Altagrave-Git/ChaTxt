@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, SafeAreaView, Pressable, ActivityIndicator } from "react-native";
 import { useRouter, Stack } from "expo-router";
-import { COLORS, SIZES, FONT, icons } from "../../constants";
+import { COLORS, FONT } from "../../constants";
 import Svg, { Path } from "react-native-svg";
 import Avatar from "../../components/avatar/avatar";
 import { useSession } from "../../global/session";
