@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { View, Text, TextInput, ScrollView, SafeAreaView, Pressable, StyleSheet } from "react-native";
+import { View, Text, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { useRouter, Stack } from "expo-router";
-import { COLORS, SIZES, FONT} from "../../constants";
-import styles from "../../styles/auth/auth";
+import { FONT } from "../../constants";
+import styles from "../../styles/auth/auth.styles";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
 import { useSession } from "../../global/session";
@@ -51,9 +51,9 @@ const LoginView = () => {
         headerShadowVisible: true,
         headerLeft: () => <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: theme.highlight }}>Login</Text>,
         headerRight: () => (
-          <Pressable onPress={() => router.push("/register/")}>
+          <PressableOpacity onPress={() => router.push("/register/")}>
             <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: theme.secondary }}>Register</Text>
-          </Pressable>
+          </PressableOpacity>
         ),
         headerTitle: ""
       }} />
@@ -62,12 +62,7 @@ const LoginView = () => {
         <View style={styles(theme).controlContainer}>
           {/* ERROR MESSAGE */}
           { message != null &&
-            <Text style={{
-              color: COLORS.red,
-              fontFamily: FONT.regular,
-              fontSize: 16,
-              textAlign: "center"
-            }}>{message}</Text>
+            <Text style={styles(theme).errorText}>{message}</Text>
           }
 
           {/* EMAIL INPUT */}
@@ -99,11 +94,7 @@ const LoginView = () => {
             theme={theme}
             style={styles(theme).controlButton}
           >
-            <Text style={{
-              color: theme.primary,
-              fontFamily: FONT.cute,
-              fontSize: 30
-            }}>Login</Text>
+            <Text style={styles(theme).controlButtonText}>Login</Text>
           </PressableOpacity>
         </View>
       </ScrollView>
