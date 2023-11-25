@@ -8,7 +8,7 @@ import { useTheme } from "../../global/theme";
 SplashScreen.preventAutoHideAsync();
 
 export default Layout = () => {
-  const { session, isLoading } = useSession();
+  const { session, loadingSession } = useSession();
   const { theme, loadingTheme, setTheme } = useTheme();
 
   const [fontsLoaded] = useFonts({
@@ -19,27 +19,23 @@ export default Layout = () => {
   });
 
   const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded && !loadingTheme)
+    if (fontsLoaded && !loadingTheme && !loadingSession)
     await SplashScreen.hideAsync();
-  }, [fontsLoaded, loadingTheme]);
+  }, [fontsLoaded, loadingTheme, loadingSession]);
 
   if (theme === null) {
     setTheme('default');
   }
 
-  if (!fontsLoaded || loadingTheme) {
+  if (!fontsLoaded || loadingTheme || loadingSession) {
     return null;
   }
-  
 
-  return (
-    <>
-      { session !== null ? (
-          <Stack onLayout={onLayoutRootView} />
-        ) : (
-          <Redirect href={"/login/"} />
-        )
-      }
-    </>
-  );
+  return !session ? (
+    <Redirect href={"/login/"} />
+  ) : session.user.is_new ? (
+    <Redirect href={"/tutorial/"} />
+  ) : (
+    <Stack onLayout={onLayoutRootView} />
+  )
 }

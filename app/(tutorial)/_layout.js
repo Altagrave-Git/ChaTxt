@@ -32,9 +32,9 @@ export default Layout = () => {
   }
 
   return !session ? (
-    <Stack onLayout={onLayoutRootView} />
+    <Redirect href={"/login/"} />
   ) : session.user.is_new ? (
-    <Redirect href={"/tutorial/"} />
+    <Stack onLayout={onLayoutRootView} />
   ) : (
     <Redirect href={"/"} />
   )
