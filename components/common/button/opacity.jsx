@@ -19,7 +19,7 @@ const PressableOpacity = ({ onPress, style, children }) => {
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={onPress}
-      style={style}
+      style={[style, {opacity}]}
     >
       {children}
     </AnimatedPressable>
