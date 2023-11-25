@@ -12,7 +12,7 @@ const useAsyncState = (key) => {
 }
 
 export const setStoreItemAsync = async (key, value) => {
-  if (Platform === 'web') {
+  if (Platform.OS === 'web') {
     try {
       if (value === null) {
         localStorage.removeItem(key);
