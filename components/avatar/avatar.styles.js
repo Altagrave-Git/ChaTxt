@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native"
 
-export const SKINCOLOR = new StyleSheet({
+export const SKINCOLOR = new StyleSheet.create({
   // Set 1
   A0: ["#FFEDD9", "#D4B18A"],
   A1: ["#FFD3A8", "#DE9957"],
