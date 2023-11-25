@@ -4,7 +4,7 @@ const COLORS = {
   purple: "#6f42c1",
   pink: "#d63384",
   red: "#dc3545",
-  orange: "#fd7e14",
+  orange: "#ff6f34",
   yellow: "#ffc107",
   green: "#198754",
   teal: "##4dd4ac",
@@ -43,11 +43,11 @@ const THEMES = {
     primary: COLORS.yellow,
     secondary: COLORS.orange,
     tertiary: COLORS.red,
+    background: COLORS.light,
+    highlight: COLORS.white,
     input: COLORS.white,
     text: COLORS.dark,
     placeholder: COLORS.gray,
-    background: COLORS.light,
-    highlight: COLORS.white,
   }
 };
 
@@ -64,7 +64,7 @@ const SIZES = {
   medium: 16,
   large: 20,
   xLarge: 24,
-  xxLarge: 32,
+  xxLarge: 36,
 };
 
 const SHADOWS = {
