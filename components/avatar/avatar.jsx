@@ -29,6 +29,13 @@ export const getAvatarItemSet = (repr='object') => {
         const itemNames = Object.keys(choices[key]);
         Object.values(choices[key]).forEach((value, index) => {
           value['name'] = itemNames[index];
+          const pallete = key === 'skin' ? Object.values(SKINCOLOR) : Object.values(COLORS);
+          const scheme = value.scheme;
+          const colors = [];
+          for (let i = 0; i < scheme; i++) {
+            colors.push(pallete[Math.round(Math.round((pallete.length - 1) * Math.ceil(Math.random() * 100))/100)])
+          }
+          value['colors'] = colors;
           list.push(value);
         })
         index ? femaleItemChoices[key] = list : maleItemChoices[key] = list;
@@ -52,7 +59,7 @@ export const baseAvatar = (gender='M') => {
     }
     vals['name'] = Object.keys(itemChoices[category])[0];
     vals['type'] = Object.values(itemChoices[category])[0].type;
-    vals['colors'] = category === 'skin' ? pallete[0] : colors;
+    vals['colors'] = colors;
     avatar[category] = vals;
   })
   return avatar;
