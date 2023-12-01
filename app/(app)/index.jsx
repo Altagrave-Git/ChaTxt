@@ -1,10 +1,9 @@
-import { View, Text, ScrollView, SafeAreaView, Pressable, ActivityIndicator } from "react-native";
+import { View, Text, ScrollView, SafeAreaView, Pressable } from "react-native";
 import { useRouter, Stack } from "expo-router";
 import { COLORS, FONT } from "../../constants";
 import Svg, { Path } from "react-native-svg";
 import Avatar from "../../components/avatar/avatar";
-import { useSession } from "../../global/session";
-import { useTheme } from "../../global/theme";
+import { useSession, useTheme } from "../../global";
 
 const Home = () => {
   const { session } = useSession();
@@ -13,10 +12,7 @@ const Home = () => {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      backgroundColor: theme.background
-    }}>
+    <SafeAreaView style={{flex: 1}}>
       <Stack.Screen options={{
         headerStyle: { backgroundColor: theme.primary, },
         headerShadowVisible: true,
