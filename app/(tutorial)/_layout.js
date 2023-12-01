@@ -2,8 +2,7 @@ import { Stack, Redirect } from "expo-router";
 import { useCallback } from "react";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { useSession } from "../../global/session";
-import { useTheme } from "../../global/theme";
+import { useSession, useTheme } from "../../global";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,7 +33,7 @@ export default Layout = () => {
   return !session ? (
     <Redirect href={"/login/"} />
   ) : session.user.is_new ? (
-    <Stack onLayout={onLayoutRootView} />
+    <Stack screenOptions={{contentStyle: {backgroundColor: theme.background}}} onLayout={onLayoutRootView} />
   ) : (
     <Redirect href={"/"} />
   )
