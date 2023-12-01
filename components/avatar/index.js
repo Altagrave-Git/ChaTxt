@@ -1,11 +1,10 @@
-import Avatar from "./avatar";
-import { adjustColor } from "./shade";
-import AvatarItem from "./avataritem";
-import { SKINCOLOR } from "./avatar.styles";
+import Avatar, { AvatarItem, getAvatarItemSet, baseAvatar } from "./avatar";
+import { adjustColor } from "../../utils/shade";
 
 export {
   Avatar,
   adjustColor,
   AvatarItem,
-  SKINCOLOR
+  getAvatarItemSet,
+  baseAvatar
 }
