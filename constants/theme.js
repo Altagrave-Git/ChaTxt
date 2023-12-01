@@ -25,7 +25,7 @@ const COLORS = {
   ltTeal: "#a6e9d5",
   ltcyan: "#9eeaf9",
   ltGray: "#ced4da",
-  dtBlue: "#083180",
+  dkBlue: "#104bb8",
   dkIndigo: "#3d0a91",
   dkPurple: "#432874",
   dkPink: "#ab296a",
@@ -48,6 +48,7 @@ const THEMES = {
     input: COLORS.white,
     text: COLORS.dark,
     placeholder: COLORS.gray,
+    os: COLORS.black
   }
 };
 
