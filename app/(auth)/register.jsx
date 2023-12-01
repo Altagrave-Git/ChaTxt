@@ -5,9 +5,8 @@ import { FONT } from "../../constants";
 import styles from "../../styles/auth/auth.styles";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
-import { useSession } from "../../global/session";
-import { useTheme } from "../../global/theme";
-import { PressableOpacity } from "../../components/common";
+import { useSession, useTheme } from "../../global";
+import { PressableOpacity } from "../../components/common/button";
 
 const RegisterView = () => {
   const { signIn } = useSession();
@@ -45,12 +44,7 @@ const RegisterView = () => {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: theme.background,
-      }}
-    >
+    <SafeAreaView style={{flex: 1}}>
       {/* HEADER */}
       <Stack.Screen options={{
         headerStyle: { backgroundColor: theme.primary },
