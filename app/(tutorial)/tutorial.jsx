@@ -1,80 +1,167 @@
-import { useSession } from "../../global/session";
-import { useTheme } from "../../global/theme"
-import { SafeAreaView, View, Text, ScrollView, Pressable } from "react-native";
+import { View, ScrollView, Pressable, Text, SafeAreaView } from "react-native";
 import { Stack } from "expo-router";
-import { PressableOpacity } from "../../components/common";
 import { FONT, SIZES, COLORS, SHADOWS } from "../../constants/theme";
-import { Avatar, adjustColor } from "../../components/avatar";
-import { Foundation } from "@expo/vector-icons";
-import { BedroomA, BedroomB } from "../../components/background/bedroom";
+import { Avatar } from "../../components/avatar";
+import { Foundation, AntDesign } from "@expo/vector-icons";
+import { useSession, useTheme } from "../../global";
+import { AvatarBuilder } from "../../components/avatar/builder";
+import { useState } from "react";
+import AvatarIcon from "../../components/avatar/icons/icons";
+import { Tab } from "@rneui/themed";
 
 
 const TutorialView = () => {
   const { theme } = useTheme();
   const { session } = useSession();
+  const { avatar, choices, gender, setMale, setFemale, setItem } = AvatarBuilder();
+
+  const categories = Object.keys(choices);
+  
+  const [category, setCategory] = useState(0);
+  const [itemArray, setItemArray] = useState(choices[categories[category]]);
+  const [currentItem, setCurrentItem] = useState(choices[categories[category]].findIndex(obj => obj.name === avatar[categories[category]].name));
+
+  const handlePrev = (array, arrayIndex, setArrayIndex) => {
+    let newIndex;
+    if (arrayIndex > 0 && array.length > 1) {
+      newIndex = arrayIndex - 1;
+    } else if (array.length > 1) {
+      newIndex = array.length - 1;
+    } else {
+      newIndex = 0;
+    }
+    setArrayIndex(newIndex)
+    return newIndex;
+  }
+  
+  const handleNext = (array, arrayIndex, setArrayIndex) => {
+    let newIndex;
+    if (array.length - 1 > arrayIndex && array.length > 1) {
+      newIndex = arrayIndex + 1;
+    } else if (array.length > 1) {
+      newIndex = 0;
+    } else {
+      newIndex = 0;
+    }
+    setArrayIndex(newIndex);
+    return newIndex;
+  }
 
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      backgroundColor: theme.background
-    }}>
+    <SafeAreaView style={{flex: 1}}>
       {/* HEADER */}
       <Stack.Screen options={{
         headerStyle: { backgroundColor: theme.primary },
         headerShadowVisible: true,
-        headerLeft: () => <Text style={{ fontFamily: FONT.cute, fontSize: SIZES.xxLarge, color: theme.highlight }}>Tutorial</Text>,
-        headerRight: () => (
-          <PressableOpacity onPress={() => router.push("/register/")}>
-            <Text style={{ fontFamily: FONT.cute, fontSize: SIZES.xxLarge, color: theme.secondary }}>Skip</Text>
-          </PressableOpacity>
-        ),
-        headerTitle: ""
+        headerTitle: "Create Avatar",
+        headerTitleStyle: { fontFamily: FONT.cute, fontSize: SIZES.xxLarge, color: theme.highlight,  },
+        headerTitleAlign: "center"
       }} />
-      <ScrollView contentContainerStyle={{height: "100%", alignItems: "center"}}>
+      <ScrollView>
 
+        {/* SET GENDER */}
         <View style={{alignItems: "center"}}>
-          <View style={[{flexDirection: "row", marginTop: 10, borderRadius: 15}, SHADOWS.medium]}>
-          <View style={{
-            backgroundColor: COLORS.ltBlue,
-            paddingHorizontal: 10,
-            borderTopLeftRadius: 15,
-            borderBottomLeftRadius: 15,
-            justifyContent: "center",
-            alignItems: "center"
-          }}>
-            <Foundation name="male-symbol" size={50} color={COLORS.blue} />
+          <View style={[{flexDirection: "row", marginTop: 30, borderRadius: 15, width: 160, height: 65, padding: 1}, SHADOWS.medium]}>
+            <Pressable style={{flexGrow: 1}} onPress={setMale} disabled={gender === 'M' ? true : false}>
+              {({pressed}) => (
+                <View style={{
+                  paddingHorizontal: 10,
+                  borderTopLeftRadius: 15,
+                  borderBottomLeftRadius: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  borderWidth: 4,
+                  backgroundColor: gender === 'M' || pressed ? COLORS.blue : COLORS.dkBlue,
+                  borderColor: pressed || gender === 'M' ? 'transparent' : COLORS.blue
+                }}>
+                  <Foundation name="male-symbol" size={50} color={COLORS.ltBlue} />
+                </View>
+              )}
+            </Pressable>
+
+            <Pressable style={{flexGrow: 1}} onPress={setFemale} disabled={gender === 'F' ? true : false}>
+              {({pressed}) => (
+                <View style={{
+                  paddingHorizontal: 10,
+                  borderTopRightRadius: 15,
+                  borderBottomRightRadius: 15,
+                  borderWidth: 4,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  backgroundColor: gender === 'F' || pressed ? COLORS.pink : COLORS.dkPink,
+                  borderColor: pressed || gender === 'F' ? "transparent" : COLORS.pink,
+                }}>
+                  <Foundation name="female-symbol" size={50} color={COLORS.ltPink} />
+                </View>
+              )}
+            </Pressable>
           </View>
-          <Pressable>
-            {({pressed}) => (
-              <View style={{
-                backgroundColor: pressed ? COLORS.pink : COLORS.dkPink,
-                paddingHorizontal: 10,
-                borderTopRightRadius: 15,
-                borderBottomRightRadius: 15,
-                borderWidth: 3,
-                borderColor: pressed ? "transparent" : COLORS.pink,
-                justifyContent: "center",
-                alignItems: "center"
-              }}>
-                <Foundation name="female-symbol" size={50} color={COLORS.ltPink} />
-              </View>
-            )}
-          </Pressable>
+        </View>
+
+        {/* RENDER AVATAR */}
+        <View style={{width: "100%", maxHeight: 300}}>
+          <Avatar avatar={{...avatar, [categories[category]]: avatar[categories[category]]}} />
+        </View>
+
+
+        <View style={{flexDirection: "row", justifyContent: "space-evenly", width: "100%", display: "none"}}>
+          <View style={{width: "50%", alignItems: "center"}}>
+            <Pressable onPress={() => {
+              const newCategory = handlePrev(categories, category, setCategory);
+              setItemArray(choices[categories[newCategory]]);
+              setCurrentItem(0);
+            }}>
+              <AntDesign name="caretup" size={40} color={theme.primary} />
+            </Pressable>
+            
+            <Text style={{fontSize: 40, fontFamily: FONT.cute}}>{categories[category][0].toUpperCase() + categories[category].slice(1)}</Text>
+
+            <Pressable onPress={() => {
+              const newCategory = handleNext(categories, category, setCategory);
+              setItemArray(choices[categories[newCategory]]);
+              setCurrentItem(0);
+            }}>
+              <AntDesign name="caretdown" size={40} color={theme.primary} />
+            </Pressable>
+          </View>
+
+          <View style={{width: "50%", alignItems: "center"}}>
+            <Pressable onPress={() => handlePrev(itemArray, currentItem, setCurrentItem)}>
+              <AntDesign name="caretup" size={40} color={theme.primary} />
+            </Pressable>
+
+            <Text style={{fontSize: 40, fontFamily: FONT.cute}}>{currentItem}</Text>
+
+            <Pressable onPress={() => handleNext(itemArray, currentItem, setCurrentItem)}>
+              <AntDesign name="caretdown" size={40} color={theme.primary} />
+            </Pressable>
           </View>
         </View>
-
-
-        <View style={{height: 200, width: "100%"}}>
-          <Avatar />
-        </View>
-
-
-
-        <View style={{flex: 2}}>
-        
-        </View>
-
       </ScrollView>
+      <Tab
+        value={category}
+        onChange={(e) => setCategory(e)}
+        indicatorStyle={{
+          backgroundColor: COLORS.dkGreen,
+          height: 3,
+          margin: 0,
+          padding: 0,
+        }}
+        style={{backgroundColor: theme.primary, overflow: "hidden", maxWidth: 992}}
+        variant="default"
+      >
+        { categories.map((item, index) => (
+          <Tab.Item
+            key={index}
+            icon={(active) => <AvatarIcon category={item} color={active ? COLORS.green : theme.highlight} style={{width: "100%", height: 30}} />}
+            buttonStyle={(active) => ({
+              paddingVertical: 12
+            })}
+          />
+        ))}
+      </Tab>
     </SafeAreaView>
   )  
 }
