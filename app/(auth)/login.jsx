@@ -5,9 +5,9 @@ import { FONT } from "../../constants";
 import styles from "../../styles/auth/auth.styles";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
-import { useSession } from "../../global/session";
-import { useTheme } from "../../global/theme";
-import { PressableOpacity } from "../../components/common";
+import { useSession, useTheme } from "../../global";
+import { PressableOpacity } from "../../components/common/button";
+import HeaderButton from "../../components/common/button/headerbtn";
 
 const LoginView = () => {
   const { signIn } = useSession();
@@ -37,24 +37,16 @@ const LoginView = () => {
         setMessage(Object.values(results.data)[0]);
       }
     }
-    return
   }
 
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      backgroundColor: theme.background
-    }}>
+    <SafeAreaView style={{flex: 1}}>
       {/* HEADER */}
       <Stack.Screen options={{
         headerStyle: { backgroundColor: theme.primary },
         headerShadowVisible: true,
         headerLeft: () => <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: theme.highlight }}>Login</Text>,
-        headerRight: () => (
-          <PressableOpacity onPress={() => router.push("/register/")}>
-            <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: theme.secondary }}>Register</Text>
-          </PressableOpacity>
-        ),
+        headerRight: () => <HeaderButton text='Register' onPress={() => router.push('/register/')} theme={theme} />,
         headerTitle: ""
       }} />
 
