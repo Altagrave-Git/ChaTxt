@@ -9,6 +9,13 @@
     ],
     "name": "ClubToon",
     "slug": "ClubToon",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "userInterfaceStyle": "dark"
+    },
+    "android": {
+      "userInterfaceStyle": "dark"
+    },
     "splash": {
       "image": "./assets/images/ClubToonChars.png",
       "resizeMode": "cover",
