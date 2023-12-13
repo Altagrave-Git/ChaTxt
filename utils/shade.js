@@ -1,4 +1,4 @@
-export function adjustColor(hexColor) {
+export function adjustColor(hexColor, action='auto') {
   // Convert hex to RGB
   let r = parseInt(hexColor.slice(1, 3), 16);
   let g = parseInt(hexColor.slice(3, 5), 16);
@@ -7,9 +7,9 @@ export function adjustColor(hexColor) {
   let cols = [r, g, b];
 
   const max = Math.max(...cols);
-  if (max < 180) {
-    cols.forEach((value, index) => (cols[index] += (100 - cols[index] / 3) * 1.25));
-  } else {
+  if ( (action == 'auto' && max < 180) || action == 'lighten') {
+    cols.forEach((value, index) => (cols[index] = (cols[index] + 20) * 1.15));
+  } else if (action == 'auto' || action === 'darken') {
     cols.forEach((value, index) => (cols[index] = (cols[index] - 20) * 0.85));
   }
 
