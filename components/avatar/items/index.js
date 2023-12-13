@@ -1,19 +1,41 @@
-import { skin } from "./skin";
-import { hair } from "./hair";
-import { eyes } from "./eyes";
-import { mouth } from "./mouth";
-import { torso } from "./torso";
-import { hands } from "./hands";
-import { legs } from "./legs";
-import { feet } from "./feet";
+import { skin as skinItem } from "./skin";
+import { eyes as eyesItem } from "./eyes";
+import { mouth as mouthItem } from "./mouth";
+import { hair as hairItem } from "./hair";
+import { torso as torsoItem } from "./torso";
+import { legs as legsItem } from "./legs";
+import { feet as feetItem } from "./feet";
+import { hands as handsItem } from "./hands";
+
 
 export const avatarItems = {
-  skin,
-  hair,
-  eyes,
-  mouth,
-  torso,
-  hands,
-  legs,
-  feet
+  skin: skinItem,
+  eyes: eyesItem,
+  mouth: mouthItem,
+  hair: hairItem,
+  torso: torsoItem,
+  legs: legsItem,
+  feet: feetItem,
+  hands: handsItem,
+}
+
+import { skin as skinPalette } from "./skin/skin.styles";
+import { eyes as eyesPalette } from "./eyes/eyes.styles";
+import { mouth as mouthPalette } from "./mouth/mouth.styles";
+import { hair as hairPalette } from "./hair/hair.styles";
+import { torso as torsoPalette } from "./torso/torso.styles";
+import { legs as legsPalette } from "./legs/legs.styles";
+import { hands as handsPalette } from "./hands/hands.styles";
+import { feet as feetPalette } from "./feet/feet.styles";
+
+
+export const avatarPalettes = {
+  skin: skinPalette,
+  eyes: eyesPalette,
+  mouth: mouthPalette,
+  hair: hairPalette,
+  torso: torsoPalette,
+  legs: legsPalette,
+  feet: feetPalette,
+  hands: handsPalette,
 }
