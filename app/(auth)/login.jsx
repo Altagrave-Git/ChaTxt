@@ -8,6 +8,7 @@ import validator from "../../utils/validator";
 import { useSession, useTheme } from "../../global";
 import { PressableOpacity } from "../../components/common/button";
 import HeaderButton from "../../components/common/button/headerbtn";
+import { baseAvatar, getAvatarItemSet } from "../../components/avatar/avatar";
 
 const LoginView = () => {
   const { signIn } = useSession();
