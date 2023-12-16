@@ -33,7 +33,13 @@ export default Layout = () => {
   return !session ? (
     <Redirect href={"/login/"} />
   ) : session.user.is_new ? (
-    <Stack screenOptions={{contentStyle: {backgroundColor: theme.background}}} onLayout={onLayoutRootView} />
+    <Stack screenOptions={{
+      contentStyle: {backgroundColor: theme.background},
+      headerStyle: {backgroundColor: "#00000000"},
+      headerTitleStyle: { fontFamily: "Cute", fontSize: 36, color: theme.highlight },
+      headerTitleAlign: "center",
+      headerShadowVisible: true
+    }} onLayout={onLayoutRootView} />
   ) : (
     <Redirect href={"/"} />
   )
