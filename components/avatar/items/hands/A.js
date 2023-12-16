@@ -1,5 +1,5 @@
 const handsTypeA = {
-  hands_A_0: {
+  Bare: {
     obj: (colors) => (
       <></>
     ),
