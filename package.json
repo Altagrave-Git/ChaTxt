@@ -27,7 +27,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
-    "expo-system-ui": "~2.4.0"
+    "expo-system-ui": "~2.4.0",
+    "expo-screen-orientation": "~6.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
