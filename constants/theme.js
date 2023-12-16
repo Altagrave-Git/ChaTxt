@@ -49,7 +49,9 @@ const THEMES = {
     input: COLORS.white,
     text: COLORS.dark,
     placeholder: COLORS.gray,
-    os: COLORS.black
+    os: COLORS.black,
+    menuGradient: ["#fff1a7", "#fff1b7"],
+    barGradient: ["#ffc107", "#ffb807"]
   }
 };
 
