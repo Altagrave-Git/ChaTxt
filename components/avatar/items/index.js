@@ -19,14 +19,14 @@ export const avatarItems = {
   hands: handsItem,
 }
 
-import { skin as skinPalette } from "./skin/skin.styles";
-import { eyes as eyesPalette } from "./eyes/eyes.styles";
-import { mouth as mouthPalette } from "./mouth/mouth.styles";
-import { hair as hairPalette } from "./hair/hair.styles";
-import { torso as torsoPalette } from "./torso/torso.styles";
-import { legs as legsPalette } from "./legs/legs.styles";
-import { hands as handsPalette } from "./hands/hands.styles";
-import { feet as feetPalette } from "./feet/feet.styles";
+import { Skin as skinPalette } from "./skin/skin.styles";
+import { Eyes as eyesPalette } from "./eyes/eyes.styles";
+import { Mouth as mouthPalette } from "./mouth/mouth.styles";
+import { Hair as hairPalette } from "./hair/hair.styles";
+import { Torso as torsoPalette } from "./torso/torso.styles";
+import { Legs as legsPalette } from "./legs/legs.styles";
+import { Hands as handsPalette } from "./hands/hands.styles";
+import { Feet as feetPalette } from "./feet/feet.styles";
 
 
 export const avatarPalettes = {
