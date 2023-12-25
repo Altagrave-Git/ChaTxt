@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { useRouter, Stack } from "expo-router";
-import { FONT } from "../../constants";
+import { COLORS, FONT } from "../../constants";
 import styles from "../../styles/auth/auth.styles";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
@@ -44,10 +44,9 @@ const LoginView = () => {
     <SafeAreaView style={{flex: 1}}>
       {/* HEADER */}
       <Stack.Screen options={{
-        headerStyle: { backgroundColor: theme.primary },
         headerShadowVisible: true,
-        headerLeft: () => <Text style={{ fontFamily: FONT.cute, fontSize: 36, color: theme.highlight }}>Login</Text>,
-        headerRight: () => <HeaderButton text='Register' onPress={() => router.push('/register/')} theme={theme} />,
+        headerLeft: () => <HeaderButton text={'Login'} onPress={null} theme={theme} active={true} />,
+        headerRight: () => <HeaderButton text={'Register'} onPress={() => router.push('/register/')} theme={theme} />,
         headerTitle: ""
       }} />
 
