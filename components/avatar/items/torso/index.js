@@ -1,5 +1,5 @@
-import torsoTypeA from "./A"
+import torsoTypeA from "./torso"
 
 export const torso = {
-  A: torsoTypeA
+  Torso: torsoTypeA
 }

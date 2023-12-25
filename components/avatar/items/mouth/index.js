@@ -1,7 +1,5 @@
-import mouthTypeA from "./A";
-import mouthTypeB from "./B";
+import mouthTypeA from "./mouth";
 
 export const mouth = {
-  A: mouthTypeA,
-  B: mouthTypeB
+  Mouth: mouthTypeA,
 }

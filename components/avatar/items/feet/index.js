@@ -1,5 +1,5 @@
-import feetTypeA from "./A"
+import feetTypeA from "./feet"
 
 export const feet = {
-  A: feetTypeA
+  Feet: feetTypeA
 }

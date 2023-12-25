@@ -1,5 +1,5 @@
-import hairTypeA from "./A"
+import hairTypeA from "./hair"
 
 export const hair = {
-  A: hairTypeA
+  Hair: hairTypeA
 }

@@ -1,5 +1,5 @@
-import legsTypeA from "./A";
+import legsTypeA from "./legs";
 
 export const legs = {
-  A: legsTypeA
+  Legs: legsTypeA
 }

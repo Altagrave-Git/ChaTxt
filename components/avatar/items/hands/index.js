@@ -1,7 +1,5 @@
-import handsTypeA from "./A";
-import handsTypeB from "./B";
+import handsTypeA from "./hands";
 
 export const hands = {
-  A: handsTypeA,
-  B: handsTypeB
+  Hands: handsTypeA,
 }

@@ -1,5 +1,5 @@
-import skinTypeA from "./A";
+import skinTypeA from "./skin";
 
 export const skin = {
-  A: skinTypeA
+  Skin: skinTypeA
 }

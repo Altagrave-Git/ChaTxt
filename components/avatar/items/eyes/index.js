@@ -1,5 +1,5 @@
-import eyesTypeA from "./A"
+import eyesTypeA from "./eyes"
 
 export const eyes = {
-  A: eyesTypeA
+  Eyes: eyesTypeA
 }
