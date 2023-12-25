@@ -1,6 +1,7 @@
 import { Svg } from "react-native-svg";
 import { avatarItems } from "./items";
 import { avatarPalettes } from "./items";
+import { memo } from "react";
 
 // Simplify SVG export data structure, add color array to item instances
 // { [category]: { [type]: { [name]: ...itemData } } } => { [category]: [...itemData] }
@@ -11,18 +12,22 @@ export const getAvatarItemSet = () => {
   avatarCategories.forEach((category) => {
     const maleChoices = [];
     const femaleChoices = [];
-    Object.values(category[1]).forEach((item) => {
-      Object.keys(item).forEach((name) => {
-        const itemObj = item[name];
+    Object.entries(category[1]).forEach(([type, itemSet]) => {
+      const maleTypeChoices = [];
+      const femaleTypeChoices = [];
+      Object.keys(itemSet).forEach((name) => {
+        const itemObj = itemSet[name];
         const colors = [];
         itemObj['colors'] = colors;
         itemObj['name'] = name;
         if (itemObj.M) { maleChoices.push(itemObj) };
         if (itemObj.F) { femaleChoices.push(itemObj)};
+        if (itemObj.M) { maleTypeChoices.push(itemObj) };
+        if (itemObj.F) { femaleTypeChoices.push(itemObj)};
       })
     });
-    maleItemChoices[category[0]] = maleChoices;
-    femaleItemChoices[category[0]] = femaleChoices;
+    maleItemChoices[category[0]] = maleChoices,
+    femaleItemChoices[category[0]] = femaleChoices
   });
   return { maleItemChoices, femaleItemChoices };
 }
@@ -55,7 +60,7 @@ export const baseAvatar = (gender='M') => {
 
 const testAvatar = baseAvatar();
 
-export const AvatarItem = ({category, item}) => (avatarItems[category][item.type][item.name].obj(item.colors));
+export const AvatarItem = memo(({category, item, colors=null}) => (avatarItems[category][item.type][item.name].obj(colors === null ? item.colors : colors)));
 
 const Avatar = ({ avatar=testAvatar }) => {
   return (
