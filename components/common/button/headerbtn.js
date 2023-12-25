@@ -3,11 +3,11 @@ import { SIZES, FONT } from "../../../constants";
 import { Text } from "react-native";
 
 const HeaderButton = ({text, onPress, theme, active=false}) => (
-  <PressableOpacity onPress={onPress}>
+  <PressableOpacity onPress={onPress} disabled={active}>
     <Text style={{
       fontFamily: FONT.cute,
       fontSize: SIZES.xxLarge,
-      color: active ? theme.highlight : theme.secondary
+      color: active ? theme.secondary : theme.highlight
     }}>{text}</Text>
   </PressableOpacity>
 )
