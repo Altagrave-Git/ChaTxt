@@ -1,15 +1,15 @@
-import { View, ScrollView, Pressable, Text, SafeAreaView } from "react-native";
+import { View, Pressable, Text, SafeAreaView, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
 import { FONT, SIZES, COLORS, SHADOWS } from "../../constants/theme";
-import { Avatar, adjustColor } from "../../components/avatar";
-import { Foundation, AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Avatar, AvatarBuilder, adjustColor, ItemSwiper } from "../../components/avatar";
+import { Foundation, AntDesign } from "@expo/vector-icons";
 import { useSession, useTheme } from "../../global";
-import { AvatarBuilder } from "../../components/avatar/builder";
 import AvatarIcon from "../../components/avatar/icons/icons";
 import { Tab } from "@rneui/themed";
 import { PressableOpacity } from "../../components/common/button";
 import { BedroomA, BedroomB } from "../../components/background/bedroom";
 import Gradient from "../../components/common/gradients/gradient";
+import { useState } from "react";
 
 const TutorialView = () => {
   const { theme } = useTheme();
@@ -23,6 +23,8 @@ const TutorialView = () => {
 
       <View style={{flex: 1}}>
         <View style={{alignItems: "center", height: "60%"}}>
+
+          {/* AVATAR BACKGROUND */}
           <View style={{position: "absolute", height: "100%", width: "100%"}}>
             { builder.gender === "M" ?
               <BedroomA />
@@ -30,6 +32,8 @@ const TutorialView = () => {
               <BedroomB />
             }
           </View>
+
+          {/* GENDER BUTTON GROUP */}
           <View style={[styles.genderButtonWrapper, SHADOWS.small]}>
             <Pressable style={{flexGrow: 1}} onPress={builder.setMale} disabled={builder.gender === 'M' ? true : false}>
               {({pressed}) => (
@@ -58,54 +62,48 @@ const TutorialView = () => {
             </Pressable>
           </View>
 
-
+          {/* AVATAR */}
           <View style={{height: "100%", aspectRatio: 1, flexShrink: 1}}>
-            <Avatar avatar={{...builder.avatar, [builder.category]: builder.item}} />
+            <Avatar avatar={builder.avatar} />
           </View>
         </View>
 
+        {/* ITEM SELECTION DRAWER */}
         <View style={{height: "40%", backgroundColor: theme.backgroundColor}}>
           <View style={{ width: "100%", flex: 1 }}>
-            <View style={{justifyContent: "space-between", alignItems: "center", flexDirection: "row", width: "100%", backgroundColor: theme.primary }}>
+            <View style={{justifyContent: "space-between", alignItems: "center", width: "100%", backgroundColor: theme.primary }}>
               <Gradient.TLtoBR colors={theme.barGradient} />
-              <PressableOpacity onPress={builder.prevItem} style={{paddingHorizontal: 10, height: 40, alignItems: "center", justifyContent: "center"}}>
-                <AntDesign name="caretleft" size={25} color={"#FFFFFFAA"} />
-              </PressableOpacity>
-
-              <Text style={{fontSize: 38, fontFamily: FONT.cute, color: theme.highlight}}>
-                {builder.item.name.replace("_", " ")}
-              </Text>
-
-              <PressableOpacity onPress={builder.nextItem} style={{backgroundColor: "#FFFFFF00", paddingHorizontal: 10, height: 40, alignItems: "center", justifyContent: "center"}}>
-                <AntDesign name="caretright" size={25} color={"#FFFFFFAA"} />
-              </PressableOpacity>
+              <Text style={{fontFamily: FONT.cute, fontSize: 38, color: theme.background}}>{builder.item.type}</Text>
             </View>
 
-            <ScrollView contentContainerStyle={{flexGrow: 1, alignItems: "center", justifyContent: "center", width: "100%", backgroundColor: COLORS.ltYellow}}>
+            <View style={{flex: 1}}>
               <Gradient.TLtoBR colors={theme.menuGradient} />
-              <View style={{ width: "100%"}}>
-                { builder.item.scheme ? builder.item.colors.map((color, index) => (
-                  <View key={index} style={{justifyContent: "space-between", alignItems: "center", flexDirection: "row", paddingVertical: 15, paddingHorizontal: 25, margin: 10, borderRadius: 10, backgroundColor: theme.background, borderColor: theme.primary, borderWidth: 1}}>
-                    <Text style={{ fontFamily: FONT.cute, fontSize: 36 }}>
-                      Color{builder.item.colors.length > 1 ? ` ${index}` : ''}
-                    </Text>
-                    <PressableOpacity>
-                      <View style={{ height: 48, width: 48, justifyContent: "center", alignItems: "center" }}>
-                        <View style={{backgroundColor: color, height: 36, width: 36, margin: 4, borderRadius: 3, borderWidth: 4, borderColor: adjustColor(color)}} />
-                      </View>
-                    </PressableOpacity>
-                  </View>
-                )) : (
-                  <View style={{justifyContent: "space-between", alignItems: "center", flexDirection: "row", paddingVertical: 15, paddingHorizontal: 25}}>
-                    <Text style={{fontFamily: FONT.cute, fontSize: 36}}>Color</Text>
-                    <View style={{height: 48, width: 48, justifyContent: "center", alignItems: "center"}}>
-                      <MaterialCommunityIcons name="checkbox-blank-off-outline" size={48} color={COLORS.gray} />
-                    </View>
-                  </View>
-                )}
-              </View>
-            </ScrollView>
 
+              <ItemSwiper builder={builder} initialIndex={builder.itemIndex} setScrollIndex={builder.setScrollIndex} key={builder.category} />
+
+              <View style={{position: "absolute", top: 0, right: 0, flexDirection: "row"}}>
+                { builder.item.scheme > 0 && builder.item.colors.map((color, index) => (
+                  <PressableOpacity key={index}>
+                    <View style={{backgroundColor: color, borderColor: adjustColor(color), height: 30, width: 30, marginRight: 10, marginTop: 10, borderRadius: 20, borderWidth: 2}} />
+                  </PressableOpacity>
+                ))}
+              </View>
+
+              { builder.itemIndex === builder.scrollIndex ? (
+                <View style={{position: "absolute", bottom: 10, right: 10, borderRadius: 5, height: 30, width: 80, alignItems: "center", justifyContent: "center", backgroundColor: theme.primary}}>
+                  <Text style={{fontFamily: FONT.cute, fontSize: 24, color: theme.highlight}}>CURRENT</Text>
+                </View>
+              ) : (
+                <PressableOpacity
+                  onPress={() => builder.equipItem()}
+                  style={{position: "absolute", bottom: 10, right: 10}}
+                >
+                  <View style={{backgroundColor: "green", height: 30, width: 80, alignItems: "center", justifyContent: "center", borderRadius: 5}}>
+                    <Text style={{fontFamily: FONT.cute, fontSize: 24, color: theme.highlight}}>EQUIP</Text>
+                  </View>
+                </PressableOpacity>
+              )}
+            </View>
           </View>
 
           {/*
@@ -119,18 +117,14 @@ const TutorialView = () => {
           ))}
           */}
 
-          <PressableOpacity
-          style={{position: "absolute", bottom: 15, right: 15}}
-          onPress={() => builder.equipItem()}>
-            <View style={{height: 50, width: 50, borderRadius: 50, backgroundColor: theme.tertiary, alignItems: "center", justifyContent: "center"}}>
-              <Text style={{fontFamily: FONT.cute, fontSize: 24, color: theme.highlight}}>EQUIP</Text>
-            </View>
-          </PressableOpacity>
         </View>
       </View>
 
-      <View>
-        <Gradient.TLtoBR colors={theme.barGradient} />
+      {/* FOOTER BAR */}
+      <View style={{height: "8%", minHeight: 50}}>
+        <View style={StyleSheet.absoluteFill}>
+          <Gradient.TLtoBR colors={theme.barGradient} />
+        </View>
         <Tab
           value={builder.categories.indexOf(builder.category)}
           onChange={(e) => builder.setCategory(builder.categories[e])}
@@ -140,16 +134,20 @@ const TutorialView = () => {
             margin: 0,
             padding: 0,
           }}
-          style={{backgroundColor: "#00000000", overflow: "hidden", maxWidth: 992}}
+          style={{backgroundColor: "#00000000", overflow: "hidden", maxWidth: 992, height: "100%"}}
           variant="default"
         >
           { builder.categories.map((val, index) => (
             <Tab.Item
               key={index}
-              icon={(active) => <AvatarIcon category={val} color={active ? theme.selected : theme.highlight} style={{width: "100%", height: 30}} />}
+              icon={(active) => <AvatarIcon category={val} color={active ? theme.selected : theme.highlight} style={{height: "100%", width: "100%", maxHeight: 40, maxWidth: 40, minHeight: 20, minWidth: 20}} />}
               buttonStyle={(active) => ({
-                paddingVertical: 12
+                paddingVertical: 12,
+                width: "100%"
               })}
+              containerStyle={{width: 100}}
+              style={{width: 100}}
+              iconContainerStyle={{width: 100}}
             />
           ))}
         </Tab>
