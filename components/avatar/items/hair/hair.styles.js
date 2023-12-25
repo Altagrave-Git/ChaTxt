@@ -1,4 +1,4 @@
-export const hair = {
+export const Hair = {
   default: {
     midnightBlack: "#090806",
     offBlack: "#2C222B",

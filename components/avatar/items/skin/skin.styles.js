@@ -1,4 +1,4 @@
-export const skin = {
+export const Skin = {
   default: {
     // Set 1
     A0: "#FFEDD9",

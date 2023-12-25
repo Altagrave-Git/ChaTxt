@@ -1,6 +1,6 @@
 import { COLORS } from "../../../../constants";
 
-export const hands = {
+export const Hands = {
   default: {
     ...COLORS
   },

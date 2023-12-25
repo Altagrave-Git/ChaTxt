@@ -1,6 +1,6 @@
 import { COLORS } from "../../../../constants";
 
-export const mouth = {
+export const Mouth = {
   default: {
     ...COLORS
   },

@@ -1,4 +1,4 @@
-export const eyes = {
+export const Eyes = {
   default: {
     green: "#00BB42",
     teal: "#00D0E0",

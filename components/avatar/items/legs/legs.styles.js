@@ -1,5 +1,5 @@
 import { COLORS } from "../../../../constants";
 
-export const legs = {
+export const Legs = {
   default: {...COLORS},
 }

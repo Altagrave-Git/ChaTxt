@@ -1,6 +1,6 @@
 import { COLORS } from "../../../../constants";
 
-export const feet = {
+export const Feet = {
   default: {
     ...COLORS
   },
