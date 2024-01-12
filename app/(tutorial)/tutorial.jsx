@@ -10,8 +10,11 @@ import { PressableOpacity } from "../../components/common/button";
 import { BedroomA, BedroomB } from "../../components/background/bedroom";
 import Gradient from "../../components/common/gradients/gradient";
 import { useState } from "react";
+import ColorPicker from "../../components/avatar/interface/colorpicker/colorpicker";
 
 const TutorialView = () => {
+  const [itemColorIndex, setItemColorIndex] = useState(-1);
+  
   const { theme } = useTheme();
   const { session } = useSession();
   const builder = AvatarBuilder();
@@ -19,7 +22,7 @@ const TutorialView = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       {/* HEADER */}
-      <Stack.Screen options={{headerTitle: "Create Avatar", headerBackground: () => Gradient.TLtoBR({colors: theme.barGradient})}} />
+      <Stack.Screen options={{headerTitle: "Create Avatar"}} />
 
       <View style={{flex: 1}}>
         <View style={{alignItems: "center", height: "60%"}}>
@@ -69,7 +72,7 @@ const TutorialView = () => {
         </View>
 
         {/* ITEM SELECTION DRAWER */}
-        <View style={{height: "40%", backgroundColor: theme.backgroundColor}}>
+        <View style={{height: "40%", backgroundColor: theme.backgroundColor, display: itemColorIndex === -1 ? "flex" : "none"}}>
           <View style={{ width: "100%", flex: 1 }}>
             <View style={{justifyContent: "space-between", alignItems: "center", width: "100%", backgroundColor: theme.primary }}>
               <Gradient.TLtoBR colors={theme.barGradient} />
@@ -82,8 +85,8 @@ const TutorialView = () => {
               <ItemSwiper builder={builder} initialIndex={builder.itemIndex} setScrollIndex={builder.setScrollIndex} key={builder.category} />
 
               <View style={{position: "absolute", top: 0, right: 0, flexDirection: "row"}}>
-                { builder.item.scheme > 0 && builder.item.colors.map((color, index) => (
-                  <PressableOpacity key={index}>
+                { builder.items[builder.scrollIndex].scheme > 0 && builder.currentColors[builder.category].slice(0, builder.items[builder.scrollIndex].scheme).map((color, index) => (
+                  <PressableOpacity key={index} onPress={() => setItemColorIndex(index)}>
                     <View style={{backgroundColor: color, borderColor: adjustColor(color), height: 30, width: 30, marginRight: 10, marginTop: 10, borderRadius: 20, borderWidth: 2}} />
                   </PressableOpacity>
                 ))}
@@ -105,19 +108,9 @@ const TutorialView = () => {
               )}
             </View>
           </View>
-
-          {/*
-          { Object.keys(builder.palette).map((pallete, index) => (
-            <View key={index} style={{flexDirection: "row", flexWrap: "wrap"}}>
-              <Text>{pallete}</Text>
-              { Object.values(builder.palette[pallete]).map((colorHex, index) => (
-                <View key={index} style={{backgroundColor: `${colorHex}`, height: 30, width: 30}}></View>
-              ))}
-            </View>
-          ))}
-          */}
-
         </View>
+
+        <ColorPicker itemColorIndex={itemColorIndex} setItemColorIndex={setItemColorIndex} theme={theme} builder={builder} />
       </View>
 
       {/* FOOTER BAR */}
