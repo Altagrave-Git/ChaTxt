@@ -1,23 +1,22 @@
 import { useState } from "react";
 import { View, Text, TextInput, ScrollView, SafeAreaView } from "react-native";
-import { useRouter, Stack } from "expo-router";
-import { COLORS, FONT } from "../../constants";
+import { Stack } from "expo-router";
 import styles from "../../styles/auth/auth.styles";
 import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
 import { useSession, useTheme } from "../../global";
 import { PressableOpacity } from "../../components/common/button";
 import HeaderButton from "../../components/common/button/headerbtn";
-import { baseAvatar, getAvatarItemSet } from "../../components/avatar/avatar";
 
 const LoginView = () => {
   const { signIn } = useSession();
   const { theme } = useTheme();
 
-  const router = useRouter();
+  const [authMode, setAuthMode] = useState('Login');
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [message, setMessage] = useState(null);
 
   const handleLogin = async () => {
@@ -26,27 +25,38 @@ const LoginView = () => {
       setMessage("Enter valid e-mail address.");
     } else if (!validator.password(password)) {
       setMessage("Password must be 8+ characters with atleast one uppercase, lowercase, numeric and special character.");
+    } else if (authMode === 'Register' && password != password2) {
+      setMessage("Passwords do not match.")
     } else {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
+      
+      let url = "/users/";
+      if (authMode === 'Register') {
+        formData.append("password2", password2);
+        url += "register/";
+      } else {
+        url += "login/";
+      }
 
-      const results = await ToonAPI.post("/users/login/", formData);
+      const results = await ToonAPI.post(url, formData);
       if (results.status == 200) {
-        await signIn(results.data);
+        signIn(results.data);
       } else {
         setMessage(Object.values(results.data)[0]);
       }
     }
-  }
+    return;
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
       {/* HEADER */}
       <Stack.Screen options={{
         headerShadowVisible: true,
-        headerLeft: () => <HeaderButton text={'Login'} onPress={null} theme={theme} active={true} />,
-        headerRight: () => <HeaderButton text={'Register'} onPress={() => router.push('/register/')} theme={theme} />,
+        headerLeft: () => <HeaderButton text={'Login'} onPress={() => setAuthMode('Login')} theme={theme} active={authMode === 'Login' ? true : false} />,
+        headerRight: () => <HeaderButton text={'Register'} onPress={() => setAuthMode('Register')} theme={theme} active={authMode === 'Register' ? true : false} />,
         headerTitle: ""
       }} />
 
@@ -80,13 +90,27 @@ const LoginView = () => {
             />
           </View>
 
+          {/* RE-ENTER PASSWORD */}
+          { authMode === "Register" &&
+            <View style={styles(theme).controlWrapper}>
+              <TextInput
+                style={styles(theme).controlInput}
+                value={password2}
+                onChangeText={(text) => setPassword2(text.trim())}
+                placeholder="Confirm password"
+                secureTextEntry={true}
+                placeholderTextColor={theme.placeholder}
+              />
+            </View>
+          }
+
           {/* SUBMIT */}
           <PressableOpacity
             onPress={handleLogin}
             theme={theme}
             style={styles(theme).controlButton}
           >
-            <Text style={styles(theme).controlButtonText}>Login</Text>
+            <Text style={styles(theme).controlButtonText}>{authMode}</Text>
           </PressableOpacity>
         </View>
       </ScrollView>
