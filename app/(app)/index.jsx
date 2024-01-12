@@ -14,8 +14,6 @@ const Home = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Stack.Screen options={{
-        headerStyle: { backgroundColor: theme.primary, },
-        headerShadowVisible: true,
         headerLeft: () => (
           <Text style={{ fontFamily: FONT.cute, fontSize: 40, color: theme.secondary }}>ClubToon</Text>
         ),
