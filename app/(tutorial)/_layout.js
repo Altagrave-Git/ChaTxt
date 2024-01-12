@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useSession, useTheme } from "../../global";
+import Gradient from "../../components/common/gradients/gradient";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,7 +39,8 @@ export default Layout = () => {
       headerStyle: {backgroundColor: "#00000000"},
       headerTitleStyle: { fontFamily: "Cute", fontSize: 36, color: theme.highlight },
       headerTitleAlign: "center",
-      headerShadowVisible: true
+      headerShadowVisible: true,
+      headerBackground: () => Gradient.TLtoBR({colors: theme.barGradient})
     }} onLayout={onLayoutRootView} />
   ) : (
     <Redirect href={"/"} />

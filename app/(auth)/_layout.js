@@ -32,7 +32,16 @@ export default Layout = () => {
   }
 
   return !session ? (
-    <Stack screenOptions={{contentStyle: {backgroundColor: theme.background}, headerBackground: () => Gradient.TLtoBR({colors: theme.barGradient})}} onLayout={onLayoutRootView} />
+    <Stack
+      screenOptions={{
+        contentStyle: {backgroundColor: theme.background},
+        headerStyle: {backgroundColor: "#00000000"},
+        headerTitleStyle: { fontFamily: "Cute", fontSize: 36, color: theme.highlight },
+        headerTitleAlign: "center",
+        headerShadowVisible: true,
+        headerBackground: () => Gradient.TLtoBR({colors: theme.barGradient})
+      }}
+      onLayout={onLayoutRootView} />
   ) : session.user.is_new ? (
     <Redirect href={"/tutorial/"} />
   ) : (
