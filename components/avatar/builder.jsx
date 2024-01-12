@@ -31,17 +31,6 @@ const initial = {
   })()
 };
 
-// const calculateNewIndex = (currentIndex, itemCount, increment=true) => {
-//   if (itemCount <= 1) { return 0 }
-
-//   const direction = increment ? 1 : -1;
-//   let newIndex = currentIndex + direction;
-
-//   if (newIndex < 0) { newIndex = itemCount - 1 }
-//   else if (newIndex >= itemCount) { newIndex = 0 }
-//   return newIndex;
-// };
-
 const reducer = (state, action) => {
   let choices, initItemIndex, avatar, category;
 
@@ -79,6 +68,38 @@ const reducer = (state, action) => {
         }
       };
 
+    case 'setColor':
+      const categoryColors = state.currentColors[state.category];
+      categoryColors[payload.itemColorIndex] = payload.colorHex;
+      const maleItem = state.avatarM[state.category];
+      const femaleItem = state.avatarF[state.category];
+
+      const maleItemScheme = state.choicesM[state.category].find(obj => obj.name === maleItem.name).scheme;
+      const femaleItemScheme = state.choicesF[state.category].find(obj => obj.name === femaleItem.name).scheme;
+
+      const maleItemColors = categoryColors.slice(0, maleItemScheme);
+      const femaleItemColors = categoryColors.slice(0, femaleItemColors);
+
+      return {...state,
+        avatarM: {
+          ...state.avatarM,
+          [state.category]: {
+            ...state.avatarM[state.category],
+            colors: maleItemColors
+          }
+        },
+        avatarF: {
+          ...state.avatarF,
+          [state.category]: {
+            ...state.avatarF[state.category],
+            colors: femaleItemColors
+          }
+        },
+        currentColors: {
+        ...state.currentColors,
+        [state.category]: categoryColors
+      }};
+
     default: return state;
   }
 }
@@ -104,8 +125,9 @@ export const AvatarBuilder = (avatarData=null) => {
   const setScrollIndex = (payload) => dispatch({type: 'setScrollIndex', payload: payload});
   const previewItem = (payload) => dispatch({type: 'previewItem', payload: payload});
   const equipItem = () => dispatch({type: 'equipItem'});
+  const setColor = (payload) => dispatch({type: 'setColor', payload: payload})
   
   item['colors'] = state.currentColors[category].slice(0, item.scheme);
   
-  return { avatar, choices, gender, categories, category, items, itemIndex, scrollIndex, item, palette, currentColors, setMale, setFemale, setCategory, setScrollIndex, previewItem, equipItem };
+  return { avatar, choices, gender, categories, category, items, itemIndex, scrollIndex, item, palette, currentColors, setMale, setFemale, setCategory, setScrollIndex, previewItem, equipItem, setColor };
 }
