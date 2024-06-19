@@ -1,71 +1,72 @@
-import { Svg } from "react-native-svg";
-import { avatarItems } from "./items";
-import { avatarPalettes } from "./items";
-import { memo } from "react";
+import AvatarItems from "./items";
+import AvatarPalettes from "./palettes";
+import { Svg, G } from "react-native-svg";
 
-// Simplify SVG export data structure, add color array to item instances
-// { [category]: { [type]: { [name]: ...itemData } } } => { [category]: [...itemData] }
 export const getAvatarItemSet = () => {
-  const avatarCategories = Object.entries(avatarItems);
-  const maleItemChoices = {};
-  const femaleItemChoices = {};
-  avatarCategories.forEach((category) => {
-    const maleChoices = [];
-    const femaleChoices = [];
-    Object.entries(category[1]).forEach(([type, itemSet]) => {
-      const maleTypeChoices = [];
-      const femaleTypeChoices = [];
-      Object.keys(itemSet).forEach((name) => {
-        const itemObj = itemSet[name];
-        const colors = [];
-        itemObj['colors'] = colors;
-        itemObj['name'] = name;
-        if (itemObj.M) { maleChoices.push(itemObj) };
-        if (itemObj.F) { femaleChoices.push(itemObj)};
-        if (itemObj.M) { maleTypeChoices.push(itemObj) };
-        if (itemObj.F) { femaleTypeChoices.push(itemObj)};
-      })
+  const [maleItemSet, femaleItemSet] = [{}, {}];
+  Object.entries(AvatarItems).forEach(([category, categoryData]) => {
+    const [maleCategoryVal, femaleCategoryVal] = [{}, {}];
+    Object.entries(categoryData).forEach(([subcategory, subcategoryData]) => {
+      maleCategoryVal[subcategory] = Object.values(subcategoryData).filter(item => item.M);
+      femaleCategoryVal[subcategory] = Object.values(subcategoryData).filter((item) => item.F);
     });
-    maleItemChoices[category[0]] = maleChoices,
-    femaleItemChoices[category[0]] = femaleChoices
+    maleItemSet[category] = maleCategoryVal;
+    femaleItemSet[category] = femaleCategoryVal;
   });
-  return { maleItemChoices, femaleItemChoices };
+  return [maleItemSet, femaleItemSet];
 }
 
-// Create default avatars for avatar builder
-export const baseAvatar = (gender='M') => {
-  const { maleItemChoices, femaleItemChoices } = getAvatarItemSet();
-  const itemChoices = gender === 'M' ? maleItemChoices : femaleItemChoices;
+export const baseAvatar = (gender) => {
+  const [maleItemSet, femaleItemSet] = getAvatarItemSet();
+  const itemSet = gender === "M" ? maleItemSet : femaleItemSet;
   const avatar = {};
-  Object.keys(itemChoices).forEach((category) => {
-    const vals = {};
-    const itemObj = itemChoices[category][0];
-    vals['name'] = itemObj.name;
-    vals['type'] = itemObj.type;
-    const scheme = itemObj.scheme;
-    const palette = Object.values(avatarPalettes[category].default);
-    const colors = [];
-    if (category === 'skin') {
-      colors.push(palette[0]);
-    } else {
-      for (let i = 0; i < scheme; i++) {
-        colors.push(palette[Math.round(Math.round((palette.length - 1) * Math.ceil(Math.random() * 100))/100)]);
-      }
-    }
-    vals['colors'] = colors;
-    avatar[category] = vals;
+
+  Object.entries(itemSet).forEach(([category, categoryData]) => {
+    avatar[category] = {};
+    Object.entries(categoryData).forEach(([subcategory, subcategoryData]) => {
+      avatar[category][subcategory] = subcategoryData[0];
+    });
   });
+
   return avatar;
 }
 
-const testAvatar = baseAvatar();
+const avatarTest = {
+  body: {
+    skin: { name: "Human", colors: [] }
+  },
+  head: {
+    hair: { name: "Bald", colors: [] }
+  },
+  face: {
+    eyes: { name: "Colored", colors: [] },
+    mouth: { name: "Open_Frown", colors: [] }
+  },
+  upper: {
+    torso: { name: "Tank", colors: [] },
+    hands: { name: "Bare", colors: [] }
+  },
+  lower: {
+    legs: { name: "Boxers_M", colors: [] },
+    feet: { name: "Bare_Foot", colors: [] }
+  }
+}
 
-export const AvatarItem = memo(({category, item, colors=null}) => (avatarItems[category][item.type][item.name].obj(colors === null ? item.colors : colors)));
+export const AvatarItem = ({category, subcategory, item, colors=null}) => (AvatarItems[category][subcategory][item.name].obj(colors === null ? item.colors : colors));
 
-const Avatar = ({ avatar=testAvatar }) => {
+const Avatar = ({ avatar=avatarTest }) => {
+  AvatarItems["body"]["skin"]
+
   return (
     <Svg id="stage-svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 400">
-      { Object.keys(avatar).map((category, index) => <AvatarItem category={category} item={avatar[category]} key={index} />) }
+      { Object.entries(avatar).map((([category, categoryData], index) => (
+        <G key={index}>
+          { Object.entries(categoryData).map(([subcategory, item], index) => (
+            <AvatarItem category={category} subcategory={subcategory} item={item} key={index} />
+          ))}
+        </G>
+      )
+      )) }
     </Svg>
   )
 }
