@@ -2,7 +2,6 @@ import { View, Text, ScrollView, SafeAreaView, Pressable } from "react-native";
 import { useRouter, Stack } from "expo-router";
 import { COLORS, FONT } from "../../constants";
 import Svg, { Path } from "react-native-svg";
-import Avatar from "../../components/avatar/avatar";
 import { useSession, useTheme } from "../../global";
 
 const Home = () => {
@@ -46,7 +45,6 @@ const Home = () => {
             elevation: 5
           }} onPress={() => router.push('/login/')}
         >
-          <Avatar />
         </Pressable>
       </View>
     </SafeAreaView>
