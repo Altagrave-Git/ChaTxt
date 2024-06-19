@@ -2,15 +2,16 @@ import { useState } from "react";
 import { View, Text, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { Stack } from "expo-router";
 import styles from "../../styles/auth/auth.styles";
-import ToonAPI from "../../api/api";
 import validator from "../../utils/validator";
 import { useSession, useTheme } from "../../global";
 import { PressableOpacity } from "../../components/common/button";
 import HeaderButton from "../../components/common/button/headerbtn";
+import { useAPI } from "../../global";
 
 const LoginView = () => {
   const { signIn } = useSession();
   const { theme } = useTheme();
+  const API = useAPI();
 
   const [authMode, setAuthMode] = useState('Login');
 
@@ -40,7 +41,7 @@ const LoginView = () => {
         url += "login/";
       }
 
-      const results = await ToonAPI.post(url, formData);
+      const results = await API.post(url, formData);
       if (results.status == 200) {
         signIn(results.data);
       } else {
